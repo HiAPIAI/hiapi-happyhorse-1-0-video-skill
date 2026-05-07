@@ -143,7 +143,8 @@ node scripts/hiapi-happyhorse-1-video.mjs \
 ├── agents/
 │   └── openai.yaml
 ├── assets/
-│   └── social-preview.jpg
+│   ├── social-preview.jpg
+│   └── social-preview.svg
 ├── references/
 │   ├── api.md
 │   └── output.md
@@ -188,7 +189,7 @@ node scripts/hiapi-happyhorse-1-video.mjs \
 
 ## Social Preview
 
-The repository includes [assets/social-preview.jpg](assets/social-preview.jpg). Use it as the GitHub repository Social preview image so X / Twitter link cards show the HappyHorse 1.0 promotion image.
+The repository includes [assets/social-preview.jpg](assets/social-preview.jpg), with [assets/social-preview.svg](assets/social-preview.svg) as the editable source. Use the JPG as the GitHub repository Social preview image so X / Twitter link cards show the HappyHorse 1.0 promotion image.
 
 ---
 
