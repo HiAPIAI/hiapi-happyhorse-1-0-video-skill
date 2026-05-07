@@ -143,7 +143,8 @@ node scripts/hiapi-happyhorse-1-video.mjs \
 ├── agents/
 │   └── openai.yaml
 ├── assets/
-│   └── social-preview.jpg
+│   ├── social-preview.jpg
+│   └── social-preview.svg
 ├── references/
 │   ├── api.md
 │   └── output.md
@@ -188,7 +189,7 @@ node scripts/hiapi-happyhorse-1-video.mjs \
 
 ## 展示图
 
-仓库包含 [assets/social-preview.jpg](assets/social-preview.jpg)。把它设置为 GitHub 仓库的 Social preview 图片后，在 X / Twitter 分享 GitHub 链接时会显示这张 HappyHorse 1.0 推广图。
+仓库包含 [assets/social-preview.jpg](assets/social-preview.jpg)，源文件是 [assets/social-preview.svg](assets/social-preview.svg)。把 JPG 设置为 GitHub 仓库的 Social preview 图片后，在 X / Twitter 分享 GitHub 链接时会显示这张 HappyHorse 1.0 中文推广图。
 
 ---
 
