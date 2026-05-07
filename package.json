@@ -1,0 +1,22 @@
+{
+  "name": "hiapi-happyhorse-1-0-video-skill",
+  "version": "0.1.0",
+  "description": "HiAPI HappyHorse 1.0 text-to-video skill for AI Agents",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  },
+  "keywords": [
+    "hiapi",
+    "happyhorse",
+    "text-to-video",
+    "video-generation",
+    "ai-agent",
+    "skill"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
