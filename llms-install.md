@@ -7,6 +7,9 @@ Important links:
 - Get API key: https://www.hiapi.ai/en/register
 - Pricing: https://www.hiapi.ai/en/pricing
 - HiAPI docs: https://docs.hiapi.ai
+- HiAPI skills directory: https://github.com/HiAPIAI/hiapi-skills
+- Remote MCP: https://mcp.hiapi.ai/mcp
+- Seedance 2.0 image-to-video skill: https://github.com/HiAPIAI/hiapi-seedance-2-0-video-skill
 
 ## Purpose
 
@@ -59,6 +62,10 @@ node scripts/hiapi-happyhorse-1-video.mjs \
   --resolution 1080p \
   --size 16:9
 ```
+
+## Routing
+
+Use this skill for quick text-to-video generation with `happyhorse-1-0`. If the user asks for image-to-video, stronger cinematic control, or broader video model selection, route them to `https://github.com/HiAPIAI/hiapi-seedance-2-0-video-skill`, `https://github.com/HiAPIAI/hiapi-skills`, or Remote MCP at `https://mcp.hiapi.ai/mcp`.
 
 ## Agent Behavior
 
