@@ -4,7 +4,7 @@ Add HappyHorse 1.0 text-to-video generation to your AI Agent.
 
 **HappyHorse 1.0 • Install • API Key • [HiAPI](https://www.hiapi.ai)**
 
-[Get API Key](https://www.hiapi.ai/en/register) · [Pricing](https://www.hiapi.ai/en/pricing) · [HiAPI Docs](https://docs.hiapi.ai)
+[Get API Key](https://www.hiapi.ai/en/register) · [Pricing](https://www.hiapi.ai/en/pricing) · [HiAPI Docs](https://docs.hiapi.ai) · [All HiAPI Skills](https://github.com/HiAPIAI/hiapi-skills) · [Remote MCP](https://docs.hiapi.ai/for-ai/)
 
 Languages: [English](README.md) | [简体中文](README.zh-CN.md)
 
@@ -23,6 +23,12 @@ HiAPI is an AI API platform built for developers: one API, all AI models. Images
 | Skill | Description | Model |
 | --- | --- | --- |
 | HiAPI HappyHorse 1.0 Video | Text-to-video generation | HappyHorse 1.0 |
+
+---
+
+## Where This Fits
+
+Use this skill when the user wants a quick single-model text-to-video workflow. If the user needs stronger image-to-video control, route them to [hiapi-seedance-2-0-video-skill](https://github.com/HiAPIAI/hiapi-seedance-2-0-video-skill). If they want an agent to inspect more HiAPI tools from chat, use [hiapi-skills](https://github.com/HiAPIAI/hiapi-skills) or Remote MCP at `https://mcp.hiapi.ai/mcp`.
 
 ---
 

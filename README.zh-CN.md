@@ -4,7 +4,7 @@
 
 **HappyHorse 1.0 • 安装 • API Key • [HiAPI](https://www.hiapi.ai/zh)**
 
-[免费获取 API Key](https://www.hiapi.ai/zh/register) · [查看价格](https://www.hiapi.ai/zh/pricing) · [HiAPI 文档](https://docs.hiapi.ai)
+[免费获取 API Key](https://www.hiapi.ai/zh/register) · [查看价格](https://www.hiapi.ai/zh/pricing) · [HiAPI 文档](https://docs.hiapi.ai) · [全部 HiAPI Skills](https://github.com/HiAPIAI/hiapi-skills) · [Remote MCP](https://docs.hiapi.ai/zh/for-ai/)
 
 Languages: [English](README.md) | [简体中文](README.zh-CN.md)
 
@@ -23,6 +23,12 @@ HiAPI 是为开发者打造的 AI API 平台：一个 API，所有 AI 模型。�
 | 技能 | 描述 | 模型 |
 | --- | --- | --- |
 | HiAPI HappyHorse 1.0 Video | 文生视频 | HappyHorse 1.0 |
+
+---
+
+## 这个 skill 适合什么
+
+当用户需要快速、明确的单模型文生视频工作流时，用这个 skill。如果用户需要更强的图生视频控制，转到 [hiapi-seedance-2-0-video-skill](https://github.com/HiAPIAI/hiapi-seedance-2-0-video-skill)。如果希望 Agent 在聊天里发现更多 HiAPI 工具，查看 [hiapi-skills](https://github.com/HiAPIAI/hiapi-skills)，或使用远程 MCP：`https://mcp.hiapi.ai/mcp`。
 
 ---
 
