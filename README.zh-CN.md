@@ -34,26 +34,30 @@ HiAPI 是为开发者打造的 AI API 平台：一个 API，所有 AI 模型。�
 
 ## 安装
 
-### 快速安装（OpenClaw）
+### 一行命令（推荐）
+
+```bash
+npx -y github:HiAPIAI/hiapi-happyhorse-1-0-video-skill -y
+```
+
+安装脚本会自动检测 Codex（`~/.codex/skills`）和 Claude Code（`~/.claude/skills`）。如果两个都存在，`-y` 会同时装到两个目录。指定 Agent 或自定义目录：
+
+```bash
+npx -y github:HiAPIAI/hiapi-happyhorse-1-0-video-skill --codex          # 只装到 ~/.codex/skills
+npx -y github:HiAPIAI/hiapi-happyhorse-1-0-video-skill --claude         # 只装到 ~/.claude/skills
+npx -y github:HiAPIAI/hiapi-happyhorse-1-0-video-skill --target=/path   # 自定义目录
+AGENT_SKILLS_DIR=/path npx -y github:HiAPIAI/hiapi-happyhorse-1-0-video-skill -y
+```
+
+脚本会顺便检查 `HIAPI_API_KEY` 是否已设置，并给出获取地址。
+
+### OpenClaw
 
 ```bash
 openclaw skills add https://github.com/HiAPIAI/hiapi-happyhorse-1-0-video-skill
 ```
 
-### 安装到 Codex
-
-```bash
-git clone https://github.com/HiAPIAI/hiapi-happyhorse-1-0-video-skill.git
-cd hiapi-happyhorse-1-0-video-skill
-npm test
-
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R . "${CODEX_HOME:-$HOME/.codex}/skills/hiapi-happyhorse-1-0-video"
-```
-
-复制后重启 Codex。
-
-### 手动安装到任意 Agent
+### 手动安装（任意 Agent）
 
 ```bash
 git clone https://github.com/HiAPIAI/hiapi-happyhorse-1-0-video-skill.git
@@ -69,10 +73,10 @@ cp -R hiapi-happyhorse-1-0-video-skill "$AGENT_SKILLS_DIR/hiapi-happyhorse-1-0-v
 ```text
 安装 HiAPI HappyHorse 1.0 视频生成技能：
 
-1. 克隆 https://github.com/HiAPIAI/hiapi-happyhorse-1-0-video-skill
-2. 把仓库复制到你的技能目录，目录名使用 hiapi-happyhorse-1-0-video
-3. 设置环境变量 HIAPI_API_KEY
-4. 读取 SKILL.md 了解使用方法
+1. 运行：npx -y github:HiAPIAI/hiapi-happyhorse-1-0-video-skill -y
+   （会自动检测 Codex / Claude Code 的 skills 目录）
+2. 从 https://www.hiapi.ai/zh/dashboard/api-keys 获取并设置环境变量 HIAPI_API_KEY
+3. 读取 SKILL.md 了解使用方法
 ```
 
 ---
@@ -185,11 +189,11 @@ node scripts/hiapi-happyhorse-1-video.mjs \
 
 | Agent | 安装方式 |
 | --- | --- |
+| Codex | `npx -y github:HiAPIAI/hiapi-happyhorse-1-0-video-skill --codex` |
+| Claude Code | `npx -y github:HiAPIAI/hiapi-happyhorse-1-0-video-skill --claude` |
 | OpenClaw | `openclaw skills add https://github.com/HiAPIAI/hiapi-happyhorse-1-0-video-skill` |
-| Codex | 复制到 `${CODEX_HOME:-$HOME/.codex}/skills/hiapi-happyhorse-1-0-video` |
-| Claude Code | 复制到 `~/.claude/skills/hiapi-happyhorse-1-0-video` |
-| OpenCode | 复制到 `~/.opencode/skills/hiapi-happyhorse-1-0-video` |
-| Cursor / 其他 Agent | 复制到对应技能目录 |
+| OpenCode | `AGENT_SKILLS_DIR=~/.opencode/skills npx -y github:HiAPIAI/hiapi-happyhorse-1-0-video-skill -y` |
+| Cursor / 其他 Agent | `npx -y github:HiAPIAI/hiapi-happyhorse-1-0-video-skill --target=/your/skills/dir` |
 
 ---
 

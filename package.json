@@ -4,6 +4,14 @@
   "description": "HiAPI HappyHorse 1.0 text-to-video skill for AI Agents",
   "type": "module",
   "private": true,
+  "homepage": "https://github.com/HiAPIAI/hiapi-happyhorse-1-0-video-skill#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HiAPIAI/hiapi-happyhorse-1-0-video-skill.git"
+  },
+  "bin": {
+    "hiapi-happyhorse-1-0-video-skill": "./scripts/install.mjs"
+  },
   "scripts": {
     "test": "node --test tests/*.test.mjs"
   },
