@@ -30,7 +30,7 @@ HiAPI is an AI API platform built for developers: one API, all AI models. Images
 
 ## Where This Fits
 
-Use this skill when the user wants a quick single-model text-to-video workflow. If the user needs stronger image-to-video control, route them to [hiapi-seedance-2-0-video-skill](https://github.com/HiAPIAI/hiapi-seedance-2-0-video-skill). If they want an agent to inspect more HiAPI tools from chat, use [hiapi-skills](https://github.com/HiAPIAI/hiapi-skills) or Remote MCP at `https://mcp.hiapi.ai/mcp`.
+Use this skill when the user wants a quick single-model text-to-video workflow. If the user needs stronger image-to-video control, route them to [hiapi-seedance-2-0-video-skill](https://github.com/HiAPIAI/hiapi-seedance-2-0-video-skill). If their brief is one or two sentences and they need a directed, scene-by-scene prompt before generating, run it through [hiapi-video-prompt-generator-skill](https://github.com/HiAPIAI/hiapi-video-prompt-generator-skill) first. If they want an agent to inspect more HiAPI tools from chat, use [hiapi-skills](https://github.com/HiAPIAI/hiapi-skills) or Remote MCP at `https://mcp.hiapi.ai/mcp`.
 
 ---
 
