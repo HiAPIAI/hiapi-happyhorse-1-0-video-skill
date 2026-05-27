@@ -30,7 +30,7 @@ HiAPI 是为开发者打造的 AI API 平台：一个 API，所有 AI 模型。�
 
 ## 这个 skill 适合什么
 
-当用户需要快速、明确的单模型文生视频工作流时，用这个 skill。如果用户需要更强的图生视频控制，转到 [hiapi-seedance-2-0-video-skill](https://github.com/HiAPIAI/hiapi-seedance-2-0-video-skill)。如果用户给的简报只有一两句话，需要先得到一份分镜级的 directed prompt 再生成，先用 [hiapi-video-prompt-generator-skill](https://github.com/HiAPIAI/hiapi-video-prompt-generator-skill) 跑一遍。如果希望 Agent 在聊天里发现更多 HiAPI 工具，查看 [hiapi-skills](https://github.com/HiAPIAI/hiapi-skills)，或使用远程 MCP：`https://mcp.hiapi.ai/mcp`。
+当用户需要快速、明确的单模型文生视频工作流时，用这个 skill。如果用户需要更强的图生视频控制，转到 [hiapi-seedance-2-0-video-skill](https://github.com/HiAPIAI/hiapi-seedance-2-0-video-skill)。如果用户给的简报只有一两句话，需要先得到一份分镜级提示词再生成，先用 [hiapi-video-prompt-generator-skill](https://github.com/HiAPIAI/hiapi-video-prompt-generator-skill) 跑一遍。如果希望 Agent 在聊天里发现更多 HiAPI 工具，查看 [hiapi-skills](https://github.com/HiAPIAI/hiapi-skills)，或使用远程 MCP：`https://mcp.hiapi.ai/mcp`。
 
 ---
 
