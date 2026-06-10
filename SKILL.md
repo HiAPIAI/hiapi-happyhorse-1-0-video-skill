@@ -63,8 +63,8 @@ The script creates a video task, polls until it finishes, downloads the video to
 This skill calls:
 
 ```text
-POST /v1/videos
-GET /v1/videos/{id}
+POST /v1/tasks
+GET /v1/tasks/{taskId}
 ```
 
 with:
@@ -72,14 +72,16 @@ with:
 ```json
 {
   "model": "happyhorse-1-0",
-  "prompt": "...",
-  "seconds": "5",
-  "resolution": "1080p",
-  "size": "16:9"
+  "input": {
+    "prompt": "...",
+    "duration": 5,
+    "resolution": "1080p",
+    "aspect_ratio": "16:9"
+  }
 }
 ```
 
-HappyHorse 1.0 is text-to-video. Do not send image inputs to this model.
+HappyHorse 1.0 is text-to-video. Do not send image inputs to this model. The CLI still accepts `--seconds` and `--size`; it maps them to `input.duration` and `input.aspect_ratio`.
 
 For details, read `references/api.md` and `references/output.md`.
 
@@ -102,3 +104,5 @@ Use `--live` only when you want to verify that the configured key can reach the 
 - HTTP `429`: tell the user to wait and retry or reduce concurrent video generations.
 - Task failure: ask the user to try a clearer prompt.
 - Timeout: explain that video generation may still be running and the user can retry later.
+- Optional skill update notice: tell the user the printed update command can be run later.
+- Required skill update notice: tell the user the printed update command must be run before using this skill again.
