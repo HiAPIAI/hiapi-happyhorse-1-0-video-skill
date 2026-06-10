@@ -116,9 +116,10 @@ Ask your AI Agent to generate a video with natural language. HappyHorse 1.0 turn
 ### Features
 
 - Text-to-video: describe the scene, subject, camera movement, style, and audio atmosphere
-- Durations: `3`, `5`, `8`, `10`, `15` seconds
+- Durations: any integer from `3` to `15` seconds
 - Resolutions: `720p`, `1080p`
 - Sizes: `16:9`, `9:16`, `1:1`, `4:3`, `3:4`
+- Optional seed: integer `0` to `2147483647` for reproducible generation
 - Local output: videos are saved to `outputs/` when the result can be downloaded
 - URL output: if the video cannot be downloaded, the Agent returns the remote video URL
 - Clear errors: missing Key, invalid Key, insufficient balance, invalid request, task timeout, and task failure all include a next step
@@ -140,7 +141,8 @@ node scripts/hiapi-happyhorse-1-video.mjs \
   --prompt "A wuxia swordswoman leaps across temple rooftops at dusk, silk robes flowing in the wind" \
   --seconds 5 \
   --resolution 1080p \
-  --size 16:9
+  --size 16:9 \
+  --seed 12345
 ```
 
 ---
@@ -179,7 +181,7 @@ node scripts/hiapi-happyhorse-1-video.mjs \
 | `HIAPI_API_KEY is required` | Create a Key at [Get API Key](https://www.hiapi.ai/en/register), then set `HIAPI_API_KEY`. |
 | `401 Unauthorized` | Check whether the API Key is correct, or generate a new Key. |
 | `402 Payment Required` / `403` quota / insufficient balance | Open the [HiAPI Dashboard](https://www.hiapi.ai/en/dashboard) and check your account status. |
-| `400 Bad Request` | Check the duration, resolution, and size. |
+| `400 Bad Request` | Check duration, resolution, size, and seed. |
 | `429 Too Many Requests` | Wait and retry, or reduce concurrent generation requests. |
 | Task timed out | The video may still be running. Try again later or create a shorter video. |
 | Task failed | Try a clearer prompt. |

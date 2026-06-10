@@ -10,6 +10,7 @@ import {
   extractVideoUrl,
   normalizeResolution,
   normalizeSeconds,
+  normalizeSeed,
   normalizeSize,
   resolveConfig,
   saveVideoOutput,
@@ -37,8 +38,10 @@ test("builds the HiAPI video payload for HappyHorse 1.0 text-to-video", () => {
 
 test("validates duration, resolution, and size before sending a request", () => {
   assert.equal(normalizeSeconds("3"), "3");
+  assert.equal(normalizeSeconds("4"), "4");
   assert.equal(normalizeSeconds(15), "15");
-  assert.throws(() => normalizeSeconds("4"), /Unsupported duration/);
+  assert.throws(() => normalizeSeconds("2"), /Unsupported duration/);
+  assert.throws(() => normalizeSeconds("16"), /Unsupported duration/);
 
   assert.equal(normalizeResolution("720p"), "720p");
   assert.equal(normalizeResolution("1080P"), "1080p");
@@ -46,6 +49,20 @@ test("validates duration, resolution, and size before sending a request", () => 
 
   assert.equal(normalizeSize("9:16"), "9:16");
   assert.throws(() => normalizeSize("21:9"), /Unsupported size/);
+});
+
+test("supports optional seed for reproducible HappyHorse generations", () => {
+  const payload = buildVideoPayload({
+    prompt: "A product teaser with cinematic lighting",
+    seed: "12345",
+  });
+
+  assert.equal(payload.input.seed, 12345);
+  assert.equal(normalizeSeed(0), 0);
+  assert.equal(normalizeSeed(2147483647), 2147483647);
+  assert.equal(normalizeSeed(""), undefined);
+  assert.throws(() => normalizeSeed("-1"), /Unsupported seed/);
+  assert.throws(() => normalizeSeed("2147483648"), /Unsupported seed/);
 });
 
 test("supports ratio as an alias for the API size field", () => {
@@ -101,7 +118,7 @@ test("buildHttpErrorMessage gives next actions for key, balance, invalid request
   );
   assert.match(
     buildHttpErrorMessage(400, { error: { message: "invalid size" } }),
-    /duration, resolution, and size/i,
+    /duration, resolution, size, and seed/i,
   );
   assert.match(
     buildHttpErrorMessage(429, { error: { message: "Too many requests" } }),

@@ -46,7 +46,8 @@ Text-to-video:
     "prompt": "A wuxia swordswoman leaps across temple rooftops at dusk",
     "duration": 5,
     "resolution": "1080p",
-    "aspect_ratio": "16:9"
+    "aspect_ratio": "16:9",
+    "seed": 12345
   }
 }
 ```
@@ -57,8 +58,9 @@ Text-to-video:
 | --- | --- | --- |
 | `model` | yes | Must be `happyhorse-1-0`. |
 | `input.prompt` | yes | Text video instruction. Describe subject, motion, camera movement, style, and audio atmosphere. |
-| `input.duration` | no | `3`, `5`, `8`, `10`, or `15`. Defaults to `5`. |
+| `input.duration` | no | Integer seconds from `3` to `15`. Defaults to `5`. |
 | `input.resolution` | no | `720p` or `1080p`. Defaults to `1080p`. |
 | `input.aspect_ratio` | no | Aspect ratio value: `16:9`, `9:16`, `1:1`, `4:3`, or `3:4`. Defaults to `16:9`. |
+| `input.seed` | no | Integer from `0` to `2147483647` for reproducible generation. Omit when not needed. |
 
-HappyHorse 1.0 is text-to-video. It does not use image inputs. The CLI accepts `--seconds` and `--size` as user-facing aliases for `input.duration` and `input.aspect_ratio`.
+HappyHorse 1.0 is text-to-video. It does not use image inputs. The CLI accepts `--seconds`, `--size`, and `--seed` as user-facing aliases for `input.duration`, `input.aspect_ratio`, and `input.seed`.

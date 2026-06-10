@@ -4,7 +4,7 @@ import { join, resolve } from "node:path";
 
 export const MODEL = "happyhorse-1-0";
 export const SKILL_ID = "hiapi-happyhorse-1-0-video";
-export const SKILL_VERSION = "0.1.1";
+export const SKILL_VERSION = "0.1.2";
 export const DEFAULT_BASE_URL = "https://api.hiapi.ai";
 export const DEFAULT_SKILLS_MANIFEST_URL = "https://raw.githubusercontent.com/HiAPIAI/hiapi-skills/main/skills.json";
 export const DEFAULT_SECONDS = "5";
@@ -17,7 +17,10 @@ export const HIAPI_API_KEYS_URL = "https://www.hiapi.ai/en/register";
 export const HIAPI_DASHBOARD_URL = "https://www.hiapi.ai/en/dashboard";
 export const HIAPI_PRICING_URL = "https://www.hiapi.ai/en/pricing";
 
-export const SUPPORTED_SECONDS = new Set(["3", "5", "8", "10", "15"]);
+export const MIN_SECONDS = 3;
+export const MAX_SECONDS = 15;
+export const MIN_SEED = 0;
+export const MAX_SEED = 2147483647;
 export const SUPPORTED_RESOLUTIONS = new Set(["720p", "1080p"]);
 export const SUPPORTED_SIZES = new Set(["16:9", "9:16", "1:1", "4:3", "3:4"]);
 
@@ -37,10 +40,20 @@ export function resolveConfig(env = process.env) {
 
 export function normalizeSeconds(value = DEFAULT_SECONDS) {
   const seconds = String(value).trim();
-  if (!SUPPORTED_SECONDS.has(seconds)) {
-    throw new Error(`Unsupported duration "${seconds}". Use one of: ${Array.from(SUPPORTED_SECONDS).join(", ")}.`);
+  const numeric = Number(seconds);
+  if (!Number.isInteger(numeric) || numeric < MIN_SECONDS || numeric > MAX_SECONDS) {
+    throw new Error(`Unsupported duration "${seconds}". Use an integer from ${MIN_SECONDS} to ${MAX_SECONDS}.`);
   }
   return seconds;
+}
+
+export function normalizeSeed(value) {
+  if (value === undefined || value === null || value === "") return undefined;
+  const seed = Number(String(value).trim());
+  if (!Number.isInteger(seed) || seed < MIN_SEED || seed > MAX_SEED) {
+    throw new Error(`Unsupported seed "${value}". Use an integer from ${MIN_SEED} to ${MAX_SEED}.`);
+  }
+  return seed;
 }
 
 export function normalizeResolution(value = DEFAULT_RESOLUTION) {
@@ -59,13 +72,13 @@ export function normalizeSize(value = DEFAULT_SIZE) {
   return size;
 }
 
-export function buildVideoPayload({ prompt, seconds, resolution, size, ratio } = {}) {
+export function buildVideoPayload({ prompt, seconds, resolution, size, ratio, seed } = {}) {
   const cleanPrompt = String(prompt || "").trim();
   if (!cleanPrompt) {
     throw new Error("A prompt is required.");
   }
 
-  return {
+  const payload = {
     model: MODEL,
     input: {
       prompt: cleanPrompt,
@@ -74,6 +87,9 @@ export function buildVideoPayload({ prompt, seconds, resolution, size, ratio } =
       aspect_ratio: normalizeSize(size ?? ratio),
     },
   };
+  const normalizedSeed = normalizeSeed(seed);
+  if (normalizedSeed !== undefined) payload.input.seed = normalizedSeed;
+  return payload;
 }
 
 export function extractTaskId(response) {
@@ -118,7 +134,7 @@ export function buildHttpErrorMessage(status, body) {
   }
 
   if (status === 400 || lowerSummary.includes("invalid")) {
-    return `${prefix}\nCheck the duration, resolution, and size. HappyHorse 1.0 supports durations 3, 5, 8, 10, 15; resolutions 720p, 1080p; and sizes 16:9, 9:16, 1:1, 4:3, 3:4.`;
+    return `${prefix}\nCheck the duration, resolution, size, and seed. HappyHorse 1.0 supports integer durations from 3 to 15 seconds; resolutions 720p, 1080p; sizes 16:9, 9:16, 1:1, 4:3, 3:4; and seed 0-2147483647.`;
   }
 
   if (status === 429 || lowerSummary.includes("rate limit") || lowerSummary.includes("too many")) {
@@ -208,6 +224,7 @@ export async function generateVideo(options, config = resolveConfig()) {
     seconds: String(payload.input.duration),
     resolution: payload.input.resolution,
     size: payload.input.aspect_ratio,
+    seed: payload.input.seed,
     outputs: [output],
     rawStatus: response,
   };
@@ -271,6 +288,9 @@ export function parseArgs(argv) {
     } else if (arg === "--size" || arg === "--ratio") {
       options.size = next;
       index += 1;
+    } else if (arg === "--seed") {
+      options.seed = next;
+      index += 1;
     } else if (arg === "--output-dir") {
       options.outputDir = next;
       index += 1;
@@ -293,11 +313,12 @@ export function usage() {
 
 Options:
   --prompt <text>              Required video description
-  --seconds <3|5|8|10|15>      Default: 5
+  --seconds <3-15>             Integer seconds. Default: 5
   --resolution <720p|1080p>   Default: 1080p
   --size <16:9|9:16|1:1|4:3|3:4>
                               Default: 16:9
   --ratio <value>              Alias for --size
+  --seed <0-2147483647>        Optional random seed for reproducible generation
   --output-dir <path>          Default: outputs
   --no-save                    Return the remote video URL without downloading
   --no-wait                    Create the task and return the task id

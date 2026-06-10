@@ -1,6 +1,6 @@
 {
   "name": "hiapi-happyhorse-1-0-video-skill",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "HiAPI HappyHorse 1.0 text-to-video skill for AI Agents",
   "type": "module",
   "private": true,
