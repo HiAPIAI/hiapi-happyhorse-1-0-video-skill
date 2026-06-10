@@ -116,9 +116,10 @@ node scripts/check-config.mjs --live
 ### 功能
 
 - 文生视频：描述场景、主体、镜头运动、风格和声音氛围，生成视频
-- 视频时长：`3`、`5`、`8`、`10`、`15` 秒
+- 视频时长：`3` 到 `15` 秒之间的整数
 - 视频清晰度：`720p`、`1080p`
 - 画面尺寸：`16:9`、`9:16`、`1:1`、`4:3`、`3:4`
+- 可选 seed：`0` 到 `2147483647` 之间的整数，用于尽量复现同参数结果
 - 本地输出：可下载的视频会保存到 `outputs/`
 - URL 输出：如果视频无法下载，Agent 会返回远程视频 URL
 - 错误提示：未配置 Key、Key 无效、余额不足、参数错误、任务超时、任务失败都有明确下一步
@@ -140,7 +141,8 @@ node scripts/hiapi-happyhorse-1-video.mjs \
   --prompt "一位武侠女剑客在黄昏时分纵身跃过寺庙屋脊，丝绸长袍随风飘动" \
   --seconds 5 \
   --resolution 1080p \
-  --size 16:9
+  --size 16:9 \
+  --seed 12345
 ```
 
 ---
@@ -179,7 +181,7 @@ node scripts/hiapi-happyhorse-1-video.mjs \
 | `HIAPI_API_KEY is required` | 去 [免费获取 API Key](https://www.hiapi.ai/zh/register) 创建 Key，然后设置 `HIAPI_API_KEY`。 |
 | `401 Unauthorized` | 检查 API Key 是否正确，或重新生成 Key。 |
 | `402 Payment Required` / `403` quota / 余额不足 | 进入 [HiAPI Dashboard](https://www.hiapi.ai/zh/dashboard) 检查账号状态。 |
-| `400 Bad Request` | 检查视频时长、清晰度和画面尺寸。 |
+| `400 Bad Request` | 检查视频时长、清晰度、画面尺寸和 seed。 |
 | `429 Too Many Requests` | 稍后重试，或减少并发生成请求。 |
 | 任务超时 | 视频可能还在生成中，稍后重试，或生成更短的视频。 |
 | 任务失败 | 换一个更清晰的提示词。 |
