@@ -184,6 +184,10 @@ node scripts/hiapi-happyhorse-1-video.mjs \
 | 任务超时 | 视频可能还在生成中，稍后重试，或生成更短的视频。 |
 | 任务失败 | 换一个更清晰的提示词。 |
 | 没有视频输出 | 检查任务返回内容；该 skill 期望任务成功后返回视频 URL。 |
+| 有可选更新 | CLI 启动时会检查 HiAPI skills 索引。如果只是建议升级，会打印升级命令并继续执行。 |
+| 必须更新 | CLI 会停止并打印必须执行的升级命令。运行 `npx -y github:HiAPIAI/hiapi-happyhorse-1-0-video-skill -y` 后重启 Agent。 |
+
+只有在离线或内网环境无法访问 skills 索引时，才建议设置 `HIAPI_SKIP_UPDATE_CHECK=1` 跳过检查。
 
 ---
 

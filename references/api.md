@@ -2,11 +2,11 @@
 
 ## Endpoint
 
-`happyhorse-1-0` uses HiAPI's video endpoint:
+`happyhorse-1-0` uses HiAPI's unified async task API:
 
 ```text
-POST https://api.hiapi.ai/v1/videos
-GET https://api.hiapi.ai/v1/videos/{id}
+POST https://api.hiapi.ai/v1/tasks
+GET https://api.hiapi.ai/v1/tasks/{taskId}
 ```
 
 Set `HIAPI_BASE_URL` to override the host.
@@ -42,10 +42,12 @@ Text-to-video:
 ```json
 {
   "model": "happyhorse-1-0",
-  "prompt": "A wuxia swordswoman leaps across temple rooftops at dusk",
-  "seconds": "5",
-  "resolution": "1080p",
-  "size": "16:9"
+  "input": {
+    "prompt": "A wuxia swordswoman leaps across temple rooftops at dusk",
+    "duration": 5,
+    "resolution": "1080p",
+    "aspect_ratio": "16:9"
+  }
 }
 ```
 
@@ -53,9 +55,10 @@ Text-to-video:
 
 | Parameter | Required | Notes |
 | --- | --- | --- |
-| `prompt` | yes | Text video instruction. Describe subject, motion, camera movement, style, and audio atmosphere. |
-| `seconds` | no | `3`, `5`, `8`, `10`, or `15`. Defaults to `5`. |
-| `resolution` | no | `720p` or `1080p`. Defaults to `1080p`. |
-| `size` | no | Aspect ratio value: `16:9`, `9:16`, `1:1`, `4:3`, or `3:4`. Defaults to `16:9`. |
+| `model` | yes | Must be `happyhorse-1-0`. |
+| `input.prompt` | yes | Text video instruction. Describe subject, motion, camera movement, style, and audio atmosphere. |
+| `input.duration` | no | `3`, `5`, `8`, `10`, or `15`. Defaults to `5`. |
+| `input.resolution` | no | `720p` or `1080p`. Defaults to `1080p`. |
+| `input.aspect_ratio` | no | Aspect ratio value: `16:9`, `9:16`, `1:1`, `4:3`, or `3:4`. Defaults to `16:9`. |
 
-HappyHorse 1.0 is text-to-video. It does not use `input_reference`, `image_url`, or other image inputs.
+HappyHorse 1.0 is text-to-video. It does not use image inputs. The CLI accepts `--seconds` and `--size` as user-facing aliases for `input.duration` and `input.aspect_ratio`.

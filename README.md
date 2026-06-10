@@ -184,6 +184,10 @@ node scripts/hiapi-happyhorse-1-video.mjs \
 | Task timed out | The video may still be running. Try again later or create a shorter video. |
 | Task failed | Try a clearer prompt. |
 | No video output | Check the task response; this skill expects a video URL after the task succeeds. |
+| Skill update available | The CLI checks the HiAPI skills index at startup. If the update is optional, it prints the upgrade command and continues. |
+| Skill update required | The CLI stops and prints the required upgrade command. Run `npx -y github:HiAPIAI/hiapi-happyhorse-1-0-video-skill -y`, then restart your agent. |
+
+Set `HIAPI_SKIP_UPDATE_CHECK=1` only for offline or locked-down environments where the skills index cannot be reached.
 
 ---
 

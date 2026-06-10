@@ -2,9 +2,9 @@
 
 HiAPI `happyhorse-1-0` video generation is asynchronous:
 
-1. `POST /v1/videos` creates a task and returns `id`.
-2. `GET /v1/videos/{id}` returns task status.
-3. When status is `succeeded` or `completed`, the video URL is usually in `output.url`, `metadata.url`, `video_url`, or `url`.
+1. `POST /v1/tasks` creates a task and returns `data.taskId`.
+2. `GET /v1/tasks/{taskId}` returns task status.
+3. When status is `success`, the video URL is usually in `data.output[].url`.
 
 The CLI downloads HTTP(S) video URLs to `outputs/` when possible.
 

@@ -4,6 +4,8 @@ import { test } from "node:test";
 import {
   buildHttpErrorMessage,
   buildVideoPayload,
+  checkSkillUpdate,
+  compareVersions,
   extractTaskId,
   extractVideoUrl,
   normalizeResolution,
@@ -23,10 +25,12 @@ test("builds the HiAPI video payload for HappyHorse 1.0 text-to-video", () => {
     }),
     {
       model: "happyhorse-1-0",
-      prompt: "A wuxia swordswoman leaps across temple rooftops at dusk",
-      seconds: "5",
-      resolution: "1080p",
-      size: "16:9",
+      input: {
+        prompt: "A wuxia swordswoman leaps across temple rooftops at dusk",
+        duration: 5,
+        resolution: "1080p",
+        aspect_ratio: "16:9",
+      },
     },
   );
 });
@@ -50,15 +54,16 @@ test("supports ratio as an alias for the API size field", () => {
     ratio: "1:1",
   });
 
-  assert.equal(payload.size, "1:1");
+  assert.equal(payload.input.aspect_ratio, "1:1");
 });
 
 test("extracts task ids and video URLs from common HiAPI response shapes", () => {
+  assert.equal(extractTaskId({ data: { taskId: "tk-hiapi-123" } }), "tk-hiapi-123");
   assert.equal(extractTaskId({ id: "video_task_123" }), "video_task_123");
   assert.equal(extractTaskId({ task_id: "task_456" }), "task_456");
 
   assert.equal(
-    extractVideoUrl({ output: { url: "https://cdn.example.com/out.mp4" } }),
+    extractVideoUrl({ data: { output: [{ type: "video", url: "https://cdn.example.com/out.mp4" }] } }),
     "https://cdn.example.com/out.mp4",
   );
   assert.equal(
@@ -119,4 +124,36 @@ test("returns null when remote video download fails", async () => {
   } finally {
     globalThis.fetch = originalFetch;
   }
+});
+
+test("compares semver-like skill versions", () => {
+  assert.equal(compareVersions("0.1.0", "0.1.0"), 0);
+  assert.equal(compareVersions("0.2.0", "0.1.9"), 1);
+  assert.equal(compareVersions("0.1.0", "0.2.0"), -1);
+});
+
+test("reports soft and required skill updates from the manifest", async () => {
+  const manifest = {
+    skills: [{
+      id: "hiapi-happyhorse-1-0-video",
+      version: "0.3.0",
+      updatePolicy: {
+        latestVersion: "0.3.0",
+        minimumVersion: "0.2.0",
+        updateCommand: "npx -y github:HiAPIAI/hiapi-happyhorse-1-0-video-skill -y",
+        notice: "New version available.",
+        requiredNotice: "Update required.",
+      },
+    }],
+  };
+  const fetchImpl = async () => new Response(JSON.stringify(manifest), { status: 200 });
+
+  const required = await checkSkillUpdate({ currentVersion: "0.1.0", fetchImpl });
+  assert.equal(required.status, "required");
+  assert.match(required.message, /Update required/);
+  assert.match(required.message, /Update now: npx -y github:HiAPIAI\/hiapi-happyhorse-1-0-video-skill -y/);
+
+  const available = await checkSkillUpdate({ currentVersion: "0.2.0", fetchImpl });
+  assert.equal(available.status, "available");
+  assert.match(available.message, /New version available/);
 });

@@ -3,7 +3,10 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 
 export const MODEL = "happyhorse-1-0";
+export const SKILL_ID = "hiapi-happyhorse-1-0-video";
+export const SKILL_VERSION = "0.1.1";
 export const DEFAULT_BASE_URL = "https://api.hiapi.ai";
+export const DEFAULT_SKILLS_MANIFEST_URL = "https://raw.githubusercontent.com/HiAPIAI/hiapi-skills/main/skills.json";
 export const DEFAULT_SECONDS = "5";
 export const DEFAULT_RESOLUTION = "1080p";
 export const DEFAULT_SIZE = "16:9";
@@ -64,18 +67,25 @@ export function buildVideoPayload({ prompt, seconds, resolution, size, ratio } =
 
   return {
     model: MODEL,
-    prompt: cleanPrompt,
-    seconds: normalizeSeconds(seconds),
-    resolution: normalizeResolution(resolution),
-    size: normalizeSize(size ?? ratio),
+    input: {
+      prompt: cleanPrompt,
+      duration: Number(normalizeSeconds(seconds)),
+      resolution: normalizeResolution(resolution),
+      aspect_ratio: normalizeSize(size ?? ratio),
+    },
   };
 }
 
 export function extractTaskId(response) {
-  return response?.id || response?.task_id || response?.data?.id || response?.data?.task_id || "";
+  return response?.data?.taskId || response?.data?.id || response?.data?.task_id || response?.id || response?.task_id || "";
 }
 
 export function extractVideoUrl(response) {
+  const output = response?.data?.output || response?.output;
+  if (Array.isArray(output)) {
+    const item = output.find((entry) => entry?.url);
+    if (item?.url) return item.url;
+  }
   return (
     response?.output?.url ||
     response?.metadata?.url ||
@@ -123,7 +133,7 @@ export function buildHttpErrorMessage(status, body) {
 }
 
 export async function createVideoTask(payload, config = resolveConfig()) {
-  return requestJson(`${config.baseUrl}/v1/videos`, {
+  return requestJson(`${config.baseUrl}/v1/tasks`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${config.apiKey}`,
@@ -134,7 +144,7 @@ export async function createVideoTask(payload, config = resolveConfig()) {
 }
 
 export async function getVideoTask(taskId, config = resolveConfig()) {
-  return requestJson(`${config.baseUrl}/v1/videos/${encodeURIComponent(taskId)}`, {
+  return requestJson(`${config.baseUrl}/v1/tasks/${encodeURIComponent(taskId)}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${config.apiKey}`,
@@ -152,13 +162,13 @@ export async function waitForVideo(taskId, config = resolveConfig(), options = {
     const response = await getVideoTask(taskId, config);
     const status = getTaskStatus(response);
 
-    if (status === "succeeded" || status === "completed") {
+    if (status === "success" || status === "succeeded" || status === "completed") {
       const videoUrl = extractVideoUrl(response);
       if (!videoUrl) throw new Error("Video succeeded but no URL was returned.");
       return { response, videoUrl };
     }
 
-    if (status === "failed") {
+    if (status === "fail" || status === "failed") {
       throw new Error(`Video generation failed: ${summarizeErrorBody(response.error || response.message || response)}`);
     }
   }
@@ -195,9 +205,9 @@ export async function generateVideo(options, config = resolveConfig()) {
   return {
     model: MODEL,
     taskId,
-    seconds: payload.seconds,
-    resolution: payload.resolution,
-    size: payload.size,
+    seconds: String(payload.input.duration),
+    resolution: payload.input.resolution,
+    size: payload.input.aspect_ratio,
     outputs: [output],
     rawStatus: response,
   };
@@ -292,6 +302,107 @@ Options:
   --no-save                    Return the remote video URL without downloading
   --no-wait                    Create the task and return the task id
 `;
+}
+
+export async function checkSkillUpdate({
+  currentVersion = SKILL_VERSION,
+  skillId = SKILL_ID,
+  manifestUrl = process.env.HIAPI_SKILLS_MANIFEST_URL || DEFAULT_SKILLS_MANIFEST_URL,
+  fetchImpl = fetch,
+  timeoutMs = 1200,
+  env = process.env,
+} = {}) {
+  if (env.HIAPI_SKIP_UPDATE_CHECK === "1" || env.HIAPI_SKIP_UPDATE_CHECK === "true") {
+    return { status: "skipped" };
+  }
+
+  let response;
+  const controller = typeof AbortController === "function" ? new AbortController() : null;
+  const timer = controller ? setTimeout(() => controller.abort(), timeoutMs) : null;
+  try {
+    response = await fetchImpl(manifestUrl, {
+      headers: { Accept: "application/json" },
+      signal: controller?.signal,
+    });
+  } catch {
+    return { status: "skipped" };
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+
+  if (!response?.ok) return { status: "skipped" };
+
+  let manifest;
+  try {
+    manifest = await response.json();
+  } catch {
+    return { status: "skipped" };
+  }
+
+  const skill = Array.isArray(manifest.skills)
+    ? manifest.skills.find((entry) => entry?.id === skillId)
+    : null;
+  const policy = skill?.updatePolicy;
+  if (!policy) return { status: "current" };
+
+  const minimumVersion = policy.minimumVersion || skill.version || currentVersion;
+  const latestVersion = policy.latestVersion || skill.version || minimumVersion;
+  const updateCommand = policy.updateCommand || "npx -y github:HiAPIAI/hiapi-happyhorse-1-0-video-skill -y";
+
+  if (compareVersions(currentVersion, minimumVersion) < 0) {
+    return {
+      status: "required",
+      message: [
+        policy.requiredNotice || "This HiAPI skill version is no longer compatible with the current HiAPI API.",
+        `Installed version: ${currentVersion}; required version: ${minimumVersion}.`,
+        `Update now: ${updateCommand}`,
+      ].join("\n"),
+      latestVersion,
+      minimumVersion,
+      updateCommand,
+    };
+  }
+
+  if (compareVersions(currentVersion, latestVersion) < 0) {
+    return {
+      status: "available",
+      message: [
+        policy.notice || "A newer HiAPI skill is available.",
+        `Installed version: ${currentVersion}; latest version: ${latestVersion}.`,
+        `Update: ${updateCommand}`,
+      ].join("\n"),
+      latestVersion,
+      minimumVersion,
+      updateCommand,
+    };
+  }
+
+  return { status: "current", latestVersion, minimumVersion, updateCommand };
+}
+
+export async function warnOrRequireSkillUpdate(options = {}) {
+  const result = await checkSkillUpdate(options);
+  if (result.status === "required") {
+    throw new Error(result.message);
+  }
+  if (result.status === "available" && result.message) {
+    console.error(result.message);
+  }
+  return result;
+}
+
+export function compareVersions(left, right) {
+  const parse = (value) => String(value || "0.0.0")
+    .split(/[+-]/, 1)[0]
+    .split(".")
+    .map((part) => Number.parseInt(part, 10) || 0);
+  const a = parse(left);
+  const b = parse(right);
+  for (let index = 0; index < Math.max(a.length, b.length, 3); index += 1) {
+    const delta = (a[index] || 0) - (b[index] || 0);
+    if (delta !== 0) return delta > 0 ? 1 : -1;
+  }
+  return 0;
 }
 
 function summarizeErrorBody(body) {
