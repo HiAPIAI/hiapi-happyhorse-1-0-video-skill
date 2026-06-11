@@ -32,7 +32,7 @@ node scripts/hiapi-happyhorse-1-video.mjs \
   --prompt "A wuxia swordswoman leaps across temple rooftops at dusk, silk robes flowing in the wind" \
   --seconds 5 \
   --resolution 1080p \
-  --size 16:9
+  --ratio 16:9
 ```
 
 Supported durations:
@@ -44,7 +44,7 @@ Supported resolutions:
 - `720p`
 - `1080p`
 
-Supported sizes:
+Supported aspect ratios (`--ratio`, legacy alias `--size`):
 
 - `16:9`
 - `9:16`
@@ -83,7 +83,7 @@ with:
 }
 ```
 
-HappyHorse 1.0 is text-to-video. Do not send image inputs to this model. The CLI still accepts `--seconds` and `--size`; it maps them to `input.duration` and `input.aspect_ratio`. Use `--seed` only when the user requests reproducibility.
+HappyHorse 1.0 is text-to-video. Do not send image inputs to this model. The CLI maps `--seconds` to `input.duration` and `--ratio` (legacy alias `--size`) to `input.aspect_ratio`. Use `--seed` only when the user requests reproducibility.
 
 For details, read `references/api.md` and `references/output.md`.
 
@@ -102,7 +102,7 @@ Use `--live` only when you want to verify that the configured key can reach the 
 - Missing `HIAPI_API_KEY`: tell the user to create or copy a key from https://www.hiapi.ai/en/register and export it.
 - HTTP `401` or `403`: tell the user to verify the HiAPI API key.
 - HTTP `402`, HTTP `403` with quota text, insufficient balance, credits, quota, or payment errors: tell the user to add credits or check billing at https://www.hiapi.ai/en/dashboard and review pricing at https://www.hiapi.ai/en/pricing.
-- HTTP `400`: tell the user to check duration, resolution, size, and seed.
+- HTTP `400`: tell the user to check duration, resolution, aspect_ratio, and seed.
 - HTTP `429`: tell the user to wait and retry or reduce concurrent video generations.
 - Task failure: ask the user to try a clearer prompt.
 - Timeout: explain that video generation may still be running and the user can retry later.
