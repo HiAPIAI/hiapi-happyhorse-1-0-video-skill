@@ -33,9 +33,9 @@ If the video cannot be downloaded, return the remote URL instead.
 
 ## User-Facing Failure Copy
 
-- Missing key: "Set `HIAPI_API_KEY` first. You can create a key at https://www.hiapi.ai/en/register?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video."
-- Invalid key: "HiAPI rejected the API key. Check or regenerate it at https://www.hiapi.ai/en/register?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video."
-- Insufficient balance or quota: "Your HiAPI balance or credits may be insufficient. Add credits or check billing at https://www.hiapi.ai/en/dashboard?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video."
+- Missing key: "Set `HIAPI_API_KEY` first. You can create a key at https://www.hiapi.ai/en/register."
+- Invalid key: "HiAPI rejected the API key. Check or regenerate it at https://www.hiapi.ai/en/register."
+- Insufficient balance or quota: "Your HiAPI balance or credits may be insufficient. Add credits or check billing at https://www.hiapi.ai/en/dashboard."
 - Invalid request: "Check the duration, resolution, and size. HappyHorse 1.0 supports 3, 5, 8, 10, 15 seconds; 720p and 1080p; and 16:9, 9:16, 1:1, 4:3, 3:4."
 - Rate limited: "The request was rate limited. Wait and retry, or reduce concurrent video requests."
 - Task failed: "Try a clearer prompt."

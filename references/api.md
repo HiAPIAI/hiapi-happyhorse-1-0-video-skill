@@ -25,14 +25,14 @@ Do not print API keys in logs or final answers.
 If the user does not have a key, send them to:
 
 ```text
-https://www.hiapi.ai/en/register?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video
+https://www.hiapi.ai/en/register
 ```
 
 If generation fails because of balance, credits, quota, or payment status, send them to:
 
 ```text
-https://www.hiapi.ai/en/dashboard?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video
-https://www.hiapi.ai/en/pricing?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video
+https://www.hiapi.ai/en/dashboard
+https://www.hiapi.ai/en/pricing
 ```
 
 ## Request Body
