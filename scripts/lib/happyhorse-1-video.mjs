@@ -13,9 +13,9 @@ export const DEFAULT_SIZE = "16:9";
 export const DEFAULT_OUTPUT_DIR = "outputs";
 export const POLL_INTERVAL_MS = 5000;
 export const POLL_TIMEOUT_MS = 180000;
-export const HIAPI_API_KEYS_URL = "https://www.hiapi.ai/en/register";
-export const HIAPI_DASHBOARD_URL = "https://www.hiapi.ai/en/dashboard";
-export const HIAPI_PRICING_URL = "https://www.hiapi.ai/en/pricing";
+export const HIAPI_API_KEYS_URL = "https://www.hiapi.ai/en/register?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video";
+export const HIAPI_DASHBOARD_URL = "https://www.hiapi.ai/en/dashboard?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video";
+export const HIAPI_PRICING_URL = "https://www.hiapi.ai/en/pricing?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video";
 
 export const MIN_SECONDS = 3;
 export const MAX_SECONDS = 15;

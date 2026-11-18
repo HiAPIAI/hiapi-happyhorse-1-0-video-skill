@@ -17,9 +17,9 @@ Use this skill when the user wants text-to-video generation through HiAPI's `hap
 
 Important links:
 
-- Get API key: https://www.hiapi.ai/en/register
-- Pricing: https://www.hiapi.ai/en/pricing
-- Docs: https://docs.hiapi.ai
+- Get API key: https://www.hiapi.ai/en/register?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video
+- Pricing: https://www.hiapi.ai/en/pricing?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video
+- Docs: https://docs.hiapi.ai?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video
 
 Never invent a video result. If the API call fails, report the status code, compact error message, and the next action from the Error Guidance section.
 
@@ -99,9 +99,9 @@ Use `--live` only when you want to verify that the configured key can reach the 
 
 ## Error Guidance
 
-- Missing `HIAPI_API_KEY`: tell the user to create or copy a key from https://www.hiapi.ai/en/register and export it.
+- Missing `HIAPI_API_KEY`: tell the user to create or copy a key from https://www.hiapi.ai/en/register?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video and export it.
 - HTTP `401` or `403`: tell the user to verify the HiAPI API key.
-- HTTP `402`, HTTP `403` with quota text, insufficient balance, credits, quota, or payment errors: tell the user to add credits or check billing at https://www.hiapi.ai/en/dashboard and review pricing at https://www.hiapi.ai/en/pricing.
+- HTTP `402`, HTTP `403` with quota text, insufficient balance, credits, quota, or payment errors: tell the user to add credits or check billing at https://www.hiapi.ai/en/dashboard?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video and review pricing at https://www.hiapi.ai/en/pricing?utm_source=skill&utm_medium=agent&utm_campaign=hiapi-happyhorse-1-0-video.
 - HTTP `400`: tell the user to check duration, resolution, aspect_ratio, and seed.
 - HTTP `429`: tell the user to wait and retry or reduce concurrent video generations.
 - Task failure: ask the user to try a clearer prompt.

@@ -4,9 +4,9 @@ This file is intentionally written for AI agents. Read it before installing or u
 
 Important links:
 
-- Get API key: https://www.hiapi.ai/en/register
-- Pricing: https://www.hiapi.ai/en/pricing
-- HiAPI docs: https://docs.hiapi.ai
+- Get API key: https://www.hiapi.ai/en/register?utm_source=github&utm_medium=readme&utm_campaign=hiapi-happyhorse-1-0-video
+- Pricing: https://www.hiapi.ai/en/pricing?utm_source=github&utm_medium=readme&utm_campaign=hiapi-happyhorse-1-0-video
+- HiAPI docs: https://docs.hiapi.ai?utm_source=github&utm_medium=readme&utm_campaign=hiapi-happyhorse-1-0-video
 - HiAPI skills directory: https://github.com/HiAPIAI/hiapi-skills
 - Remote MCP: https://mcp.hiapi.ai/mcp
 - Seedance 2.0 image-to-video skill: https://github.com/HiAPIAI/hiapi-seedance-2-0-video-skill
@@ -75,11 +75,11 @@ When this skill is used:
 
 1. Read `SKILL.md`.
 2. Ensure `HIAPI_API_KEY` is configured.
-3. If the key is missing, tell the user to create one at https://www.hiapi.ai/en/register.
+3. If the key is missing, tell the user to create one at https://www.hiapi.ai/en/register?utm_source=github&utm_medium=readme&utm_campaign=hiapi-happyhorse-1-0-video.
 4. Use `scripts/hiapi-happyhorse-1-video.mjs`.
 5. Return the generated video file path or remote URL.
 6. If generation fails, return the HTTP status and compact error message.
-7. If the error mentions balance, credits, quota, HTTP 402, or HTTP 403 with quota text, tell the user to add credits or check billing at https://www.hiapi.ai/en/dashboard.
+7. If the error mentions balance, credits, quota, HTTP 402, or HTTP 403 with quota text, tell the user to add credits or check billing at https://www.hiapi.ai/en/dashboard?utm_source=github&utm_medium=readme&utm_campaign=hiapi-happyhorse-1-0-video.
 8. If the error is HTTP 400, tell the user to check duration, resolution, size, and seed.
 9. If the error is HTTP 429, tell the user to wait and retry.
 10. If the task fails or times out, ask the user to try a clearer prompt.
